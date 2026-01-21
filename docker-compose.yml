@@ -11,7 +11,7 @@ services:
     environment:
       - JAVA_OPTS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/tododb
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5433/tododb
       - SPRING_DATASOURCE_USERNAME=todouser
       - SPRING_DATASOURCE_PASSWORD=todopass
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -31,7 +31,7 @@ services:
       - POSTGRES_USER=todouser
       - POSTGRES_PASSWORD=todopass
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
