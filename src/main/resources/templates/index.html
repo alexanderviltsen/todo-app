@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App - Главная</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Todo Приложение</h1>
+            <nav>
+                <a href="/" class="active">Главная</a>
+                <a href="/tasks">Задачи</a>
+                <a href="/calendar">Календарь</a>
+                <a href="/statistics">Статистика</a>
+            </nav>
+        </header>
+
+        <div class="content">
+            <h2>Добро пожаловать!</h2>
+            <p style="font-size: 18px; color: #6b7280; margin: 20px 0;">
+                Управляйте своими задачами эффективно и просто.
+            </p>
+
+            <div id="quick-stats" class="stats-grid" style="margin-top: 40px;">
+                <div class="stat-card">
+                    <h3>Всего задач</h3>
+                    <div class="stat-value" id="total-tasks">-</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Выполнено</h3>
+                    <div class="stat-value" id="completed-tasks">-</div>
+                </div>
+                <div class="stat-card">
+                    <h3>В процессе</h3>
+                    <div class="stat-value" id="incomplete-tasks">-</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <h3 style="margin-bottom: 20px; color: #667eea;">Быстрые действия</h3>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a href="/tasks" class="btn btn-primary">Посмотреть все задачи</a>
+                    <a href="/calendar" class="btn btn-success">Открыть календарь</a>
+                    <a href="/statistics" class="btn btn-warning">Посмотреть статистику</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/api.js}"></script>
+    <script>
+        // Загрузить быструю статистику
+        async function loadQuickStats() {
+            try {
+                const stats = await api.getStatistics();
+                document.getElementById('total-tasks').textContent = stats.total;
+                document.getElementById('completed-tasks').textContent = stats.completed;
+                document.getElementById('incomplete-tasks').textContent = stats.incomplete;
+            } catch (error) {
+                console.error('Ошибка загрузки статистики:', error);
+            }
+        }
+
+        // Загрузить при открытии страницы
+        document.addEventListener('DOMContentLoaded', loadQuickStats);
+    </script>
+</body>
+</html>

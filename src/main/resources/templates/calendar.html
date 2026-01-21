@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App - Календарь</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Todo Приложение</h1>
+            <nav>
+                <a href="/">Главная</a>
+                <a href="/tasks">Задачи</a>
+                <a href="/calendar" class="active">Календарь</a>
+                <a href="/statistics">Статистика</a>
+            </nav>
+        </header>
+
+        <div class="content">
+            <h2>🗓️ Календарь задач на неделю</h2>
+
+            <div id="calendar-container" class="calendar-grid">
+                <div class="loading">Загрузка календаря...</div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/api.js}"></script>
+    <script>
+        const daysOfWeek = [
+            { en: 'Monday', ru: 'Понедельник', emoji: '🔵' },
+            { en: 'Tuesday', ru: 'Вторник', emoji: '🟢' },
+            { en: 'Wednesday', ru: 'Среда', emoji: '🟡' },
+            { en: 'Thursday', ru: 'Четверг', emoji: '🟠' },
+            { en: 'Friday', ru: 'Пятница', emoji: '🔴' },
+            { en: 'Saturday', ru: 'Суббота', emoji: '🟣' },
+            { en: 'Sunday', ru: 'Воскресенье', emoji: '🟡' }
+        ];
+
+        async function loadCalendar() {
+            const container = document.getElementById('calendar-container');
+            utils.showLoading(container);
+
+            try {
+                const allTasks = await api.getAllTasks();
+                
+                // Сгруппировать задачи по дням
+                const tasksByDay = {};
+                daysOfWeek.forEach(day => {
+                    tasksByDay[day.en] = allTasks.filter(t => t.dayOfWeek === day.en);
+                });
+
+                container.innerHTML = daysOfWeek.map(day => {
+                    const dayTasks = tasksByDay[day.en];
+                    const completedCount = dayTasks.filter(t => t.completed).length;
+                    const totalCount = dayTasks.length;
+
+                    return `
+                        <div class="day-card">
+                            <h3>${day.emoji} ${day.ru}</h3>
+                            <div style="margin-bottom: 15px; padding: 10px; background: white; border-radius: 8px;">
+                                <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px;">
+                                    Всего: ${totalCount} | Выполнено: ${completedCount}
+                                </div>
+                                <div style="background: #e5e7eb; border-radius: 5px; height: 8px; overflow: hidden;">
+                                    <div style="background: #10b981; height: 100%; width: ${totalCount > 0 ? (completedCount / totalCount * 100) : 0}%; transition: width 0.3s;"></div>
+                                </div>
+                            </div>
+                            <div class="day-tasks">
+                                ${dayTasks.length === 0 ? 
+                                    '<p style="text-align: center; color: #6b7280; padding: 20px;">Задач нет</p>' :
+                                    dayTasks.map(task => `
+                                        <div class="day-task ${task.completed ? 'completed' : ''}">
+                                            <div style="display: flex; justify-content: space-between; align-items: start; gap: 10px;">
+                                                <span style="flex: 1;">${task.description}</span>
+                                                ${task.completed ? 
+                                                    '<span style="color: #10b981; font-size: 18px;">✔</span>' : 
+                                                    '<span style="color: #f59e0b; font-size: 18px;">⏳</span>'
+                                                }
+                                            </div>
+                                        </div>
+                                    `).join('')
+                                }
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                utils.showError('Ошибка загрузки календаря: ' + error.message);
+                container.innerHTML = '';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCalendar);
+    </script>
+</body>
+</html>

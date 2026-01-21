@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App - Задачи</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Todo Приложение</h1>
+            <nav>
+                <a href="/">Главная</a>
+                <a href="/tasks" class="active">Задачи</a>
+                <a href="/calendar">Календарь</a>
+                <a href="/statistics">Статистика</a>
+            </nav>
+        </header>
+
+        <div class="content">
+            <h2>Управление задачами</h2>
+
+            <!-- Форма добавления задачи -->
+            <div class="task-form">
+                <input type="text" id="task-description" placeholder="Описание задачи...">
+                <select id="task-day">
+                    <option value="">-- Выберите день --</option>
+                    <option value="Monday">Понедельник</option>
+                    <option value="Tuesday">Вторник</option>
+                    <option value="Wednesday">Среда</option>
+                    <option value="Thursday">Четверг</option>
+                    <option value="Friday">Пятница</option>
+                    <option value="Saturday">Суббота</option>
+                    <option value="Sunday">Воскресенье</option>
+                </select>
+                <button class="btn btn-primary" onclick="addTask()">Добавить</button>
+            </div>
+
+            <!-- Фильтры -->
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterTasks('all')">Все</button>
+                <button class="filter-btn" onclick="filterTasks('incomplete')">Активные</button>
+                <button class="filter-btn" onclick="filterTasks('completed')">Завершенные</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteAllCompleted()" style="margin-left: auto;">
+                    🗑️ Очистить завершенные
+                </button>
+            </div>
+
+            <!-- Список задач -->
+            <div id="tasks-container" class="tasks-list">
+                <div class="loading">Загрузка задач...</div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/api.js}"></script>
+    <script th:src="@{/js/tasks.js}"></script>
+</body>
+</html>
