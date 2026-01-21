@@ -1,0 +1,59 @@
+# Игнорируем файлы и директории при сборке Docker образа
+
+# Директории сборки
+target/
+build/
+out/
+bin/
+
+# IDE файлы
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# Логи
+logs/
+*.log
+
+# Временные файлы
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker файлы
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Документация
+README.md
+DOCS/
+docs/
+
+# Тесты
+*.test
+test/
+
+# OS файлы
+.DS_Store
+Thumbs.db
+
+# Node modules (если используется фронтенд)
+node_modules/
+
+# Конфигурационные файлы окружения
+.env
+.env.local
+.env.*.local
