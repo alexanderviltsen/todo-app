@@ -12,9 +12,9 @@
             <h1>📋 Todo Приложение</h1>
             <nav>
                 <a href="/">Главная</a>
-                <a href="/tasks">Задачи</a>
-                <a href="/calendar" class="active">Календарь</a>
-                <a href="/statistics">Статистика</a>
+                <a href="/app/tasks">Задачи</a>
+                <a href="/app/calendar" class="active">Календарь</a>
+                <a href="/app/statistics">Статистика</a>
             </nav>
         </header>
 
@@ -46,7 +46,6 @@
             try {
                 const allTasks = await api.getAllTasks();
                 
-                // Сгруппировать задачи по дням
                 const tasksByDay = {};
                 daysOfWeek.forEach(day => {
                     tasksByDay[day.en] = allTasks.filter(t => t.dayOfWeek === day.en);

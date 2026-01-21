@@ -14,21 +14,21 @@ public class PageController {
         return "index";
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("/app/tasks")
     public String showTasks() {
-        log.info("GET /tasks - Страница списка задач");
+        log.info("GET /app/tasks - Страница списка задач");
         return "tasks";
     }
 
-    @GetMapping("/statistics")
+    @GetMapping("/app/statistics")
     public String showStatistics() {
-        log.info("GET /statistics - Страница статистики");
+        log.info("GET /app/statistics - Страница статистики");
         return "statistics";
     }
 
-    @GetMapping("/calendar")
+    @GetMapping("/app/calendar")
     public String showCalendar() {
-        log.info("GET /calendar - Календарь задач");
+        log.info("GET /app/calendar - Календарь задач");
         return "calendar";
     }
 }

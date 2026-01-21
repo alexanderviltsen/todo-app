@@ -12,9 +12,9 @@
             <h1>📋 Todo Приложение</h1>
             <nav>
                 <a href="/">Главная</a>
-                <a href="/tasks">Задачи</a>
-                <a href="/calendar">Календарь</a>
-                <a href="/statistics" class="active">Статистика</a>
+                <a href="/app/tasks">Задачи</a>
+                <a href="/app/calendar">Календарь</a>
+                <a href="/app/statistics" class="active">Статистика</a>
             </nav>
         </header>
 
@@ -69,11 +69,9 @@
                     </div>
                 `;
 
-                // Обновить прогресс-бар
                 document.getElementById('completion-percentage').textContent = percentage + '%';
                 document.getElementById('progress-bar').style.width = percentage + '%';
 
-                // Загрузить последние задачи
                 loadRecentTasks();
             } catch (error) {
                 utils.showError('Ошибка загрузки статистики: ' + error.message);
